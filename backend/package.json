@@ -1,0 +1,15 @@
+{
+  "name": "connect-live-turn-backend",
+  "version": "1.0.0",
+  "description": "Secure Firebase-authenticated backend API for fetching Metered TURN server credentials for Connect Live.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.1.0"
+  }
+}

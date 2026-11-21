@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Connect Live</string>
+    <string name="tagline">Real-time HD audio, video &amp; messaging</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="tab_chats">Chats</string>
+    <string name="tab_feed">Feed</string>
+    <string name="tab_contacts">Friends</string>
+    <string name="tab_calls">Calls</string>
+    <string name="tab_profile">Profile</string>
+    <string name="status_online">Online</string>
+    <string name="status_offline">Offline</string>
+    <string name="incoming_audio_call">Incoming Audio Call</string>
+    <string name="incoming_video_call">Incoming Video Call</string>
+    <string name="accept_call">Accept</string>
+    <string name="reject_call">Decline</string>
+    <string name="end_call">End</string>
+    <string name="mute_mic">Mute</string>
+    <string name="unmute_mic">Unmute</string>
+    <string name="speaker_on">Speaker</string>
+    <string name="camera_toggle">Camera</string>
+    <string name="switch_camera">Flip</string>
+    <string name="no_chats_title">No conversations yet</string>
+    <string name="no_chats_subtitle">Add a friend by 01 number or QR code to start chatting and calling.</string>
+    <string name="no_calls_title">No recent calls</string>
+    <string name="no_calls_subtitle">Your audio and video call history will appear here.</string>
+    <string name="no_contacts_title">No other users found</string>
+    <string name="no_contacts_subtitle">Use your 01 Connect Number or QR code to add friends.</string>
+    <string name="permission_required_title">Microphone &amp; Camera Access</string>
+    <string name="permission_required_body">Connect Live needs microphone access for audio calls and camera access for live video calls.</string>
+    <string name="grant_permissions">Grant Permissions</string>
+    <string name="minimize_pip">Minimize to popup</string>
+    <string name="minimize_in_app">Minimize to mini window</string>
+    <string name="pip_mute">Mute</string>
+    <string name="pip_unmute">Unmute</string>
+    <string name="pip_end">End</string>
+    <string name="sign_out">Sign Out</string>
+</resources>

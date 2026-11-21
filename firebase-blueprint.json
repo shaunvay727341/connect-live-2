@@ -1,0 +1,305 @@
+{
+  "entities": {
+    "UserPrivate": {
+      "title": "UserPrivate",
+      "description": "Authenticated user's private profile including email, 9-digit connect number, personal details, and presence timestamps.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "connectNumber": { "type": "string" },
+        "bio": { "type": "string" },
+        "location": { "type": "string" },
+        "birthday": { "type": "string" },
+        "gender": { "type": "string" },
+        "online": { "type": "boolean" },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "online", "createdAt", "updatedAt"]
+    },
+    "DirectoryUser": {
+      "title": "DirectoryUser",
+      "description": "Public contact and creator directory entry without PII.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "displayNameLower": { "type": "string" },
+        "statusText": { "type": "string" },
+        "bio": { "type": "string" },
+        "location": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "connectNumber": { "type": "string" },
+        "discoverable": { "type": "boolean" },
+        "online": { "type": "boolean" },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "totalLikesCount": { "type": "integer" },
+        "postsCount": { "type": "integer" },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "displayNameLower", "discoverable", "online", "createdAt", "updatedAt"]
+    },
+    "ConnectNumberIndex": {
+      "title": "ConnectNumberIndex",
+      "description": "O(1) lookup mapping each unique 9-digit 01xxxxxxx number to its user profile.",
+      "type": "object",
+      "properties": {
+        "number": { "type": "string" },
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["number", "uid", "displayName", "createdAt", "updatedAt"]
+    },
+    "FriendRequest": {
+      "title": "FriendRequest",
+      "description": "Friend invitation sent by 01xxxxxxx connect number, QR scan, or search.",
+      "type": "object",
+      "properties": {
+        "fromUid": { "type": "string" },
+        "fromName": { "type": "string" },
+        "fromPhoto": { "type": "string" },
+        "fromNumber": { "type": "string" },
+        "toUid": { "type": "string" },
+        "toName": { "type": "string" },
+        "toPhoto": { "type": "string" },
+        "toNumber": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "status": { "type": "string", "enum": ["PENDING", "ACCEPTED", "REJECTED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromUid", "fromName", "toUid", "toName", "participantIds", "status", "createdAt", "updatedAt"]
+    },
+    "Friendship": {
+      "title": "Friendship",
+      "description": "Accepted mutual friendship connecting two users.",
+      "type": "object",
+      "properties": {
+        "participantIds": { "type": "array" },
+        "participantNames": { "type": "object" },
+        "participantPhotos": { "type": "object" },
+        "participantNumbers": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantIds", "createdAt", "updatedAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "1:1 messaging thread supporting friend chats and 3-message capped Feed DMs until reply.",
+      "type": "object",
+      "properties": {
+        "participantIds": { "type": "array" },
+        "participantNames": { "type": "object" },
+        "participantPhotos": { "type": "object" },
+        "typingBy": { "type": "object" },
+        "wallpaperBy": { "type": "object" },
+        "isFriendChat": { "type": "boolean" },
+        "dmInitiatorUid": { "type": "string" },
+        "dmSenderMessageCount": { "type": "integer" },
+        "dmRecipientReplied": { "type": "boolean" },
+        "lastMessageText": { "type": "string" },
+        "lastMessageSenderId": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantIds", "lastMessageText", "lastMessageSenderId", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Chat message supporting text, ImgBB photos, WebRTC P2P voice notes, Cloudinary videos, replies, reactions, and call logs.",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "videoThumbUrl": { "type": "string" },
+        "videoDurationMs": { "type": "integer" },
+        "voiceUrl": { "type": "string" },
+        "voiceDurationMs": { "type": "integer" },
+        "voiceTransferId": { "type": "string" },
+        "deliveryStatus": { "type": "string", "enum": ["SENT", "PENDING_P2P", "DELIVERED"] },
+        "messageType": { "type": "string", "enum": ["TEXT", "IMAGE", "VOICE", "VIDEO", "CALL_EVENT"] },
+        "replyToId": { "type": "string" },
+        "replyToText": { "type": "string" },
+        "replyToSenderName": { "type": "string" },
+        "reactions": { "type": "object" },
+        "deleted": { "type": "boolean" },
+        "participantIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["conversationId", "senderId", "senderName", "text", "messageType", "participantIds", "createdAt"]
+    },
+    "FeedPost": {
+      "title": "FeedPost",
+      "description": "TikTok-style creator Feed post with multi-image/video support and granular privacy/interaction settings.",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "authorNumber": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "mediaUrls": { "type": "array" },
+        "mediaType": { "type": "string", "enum": ["IMAGE", "VIDEO"] },
+        "videoUrl": { "type": "string" },
+        "viewVisibility": { "type": "string", "enum": ["PUBLIC", "FRIENDS", "ONLY_ME"] },
+        "likePermission": { "type": "string", "enum": ["PUBLIC", "FRIENDS", "ONLY_ME"] },
+        "commentPermission": { "type": "string", "enum": ["PUBLIC", "FRIENDS", "ONLY_ME"] },
+        "likeCount": { "type": "integer" },
+        "commentCount": { "type": "integer" },
+        "shareCount": { "type": "integer" },
+        "repostCount": { "type": "integer" },
+        "reactionsBy": { "type": "object" },
+        "repostedFromPostId": { "type": "string" },
+        "repostedByUid": { "type": "string" },
+        "repostedByName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorUid", "authorName", "title", "description", "mediaUrls", "mediaType", "viewVisibility", "likePermission", "commentPermission", "likeCount", "commentCount", "shareCount", "repostCount", "createdAt", "updatedAt"]
+    },
+    "FeedComment": {
+      "title": "FeedComment",
+      "description": "Post comment supporting threaded replies and attached image comments.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "replyToCommentId": { "type": "string" },
+        "replyToAuthorName": { "type": "string" },
+        "replyToText": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "authorUid", "authorName", "text", "createdAt"]
+    },
+    "FollowRelation": {
+      "title": "FollowRelation",
+      "description": "Directional follower/following link between two users.",
+      "type": "object",
+      "properties": {
+        "followerUid": { "type": "string" },
+        "targetUid": { "type": "string" },
+        "followerName": { "type": "string" },
+        "targetName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerUid", "targetUid", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "Durable social and messaging notification with offline recovery tracking.",
+      "type": "object",
+      "properties": {
+        "recipientUid": { "type": "string" },
+        "actorUid": { "type": "string" },
+        "actorName": { "type": "string" },
+        "actorPhoto": { "type": "string" },
+        "type": { "type": "string", "enum": ["MESSAGE", "COMMENT", "LIKE", "FOLLOW", "REPLY", "REPOST", "FRIEND_REQUEST"] },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "targetId": { "type": "string" },
+        "delivered": { "type": "boolean" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientUid", "actorUid", "actorName", "type", "title", "body", "delivered", "read", "createdAt"]
+    },
+    "VoiceTransferSession": {
+      "title": "VoiceTransferSession",
+      "description": "WebRTC DataChannel signaling for peer-to-peer voice message transfer.",
+      "type": "object",
+      "properties": {
+        "senderUid": { "type": "string" },
+        "recipientUid": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "durationMs": { "type": "integer" },
+        "status": { "type": "string", "enum": ["QUEUED", "OFFERED", "ANSWERED", "TRANSFERRED", "CANCELLED"] },
+        "offerSdp": { "type": "string" },
+        "offerType": { "type": "string" },
+        "answerSdp": { "type": "string" },
+        "answerType": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderUid", "recipientUid", "conversationId", "participantIds", "durationMs", "status", "createdAt", "updatedAt"]
+    },
+    "CallSession": {
+      "title": "CallSession",
+      "description": "WebRTC call signaling session and call history record.",
+      "type": "object",
+      "properties": {
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "callerPhoto": { "type": "string" },
+        "calleeId": { "type": "string" },
+        "calleeName": { "type": "string" },
+        "calleePhoto": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "callType": { "type": "string", "enum": ["AUDIO", "VIDEO"] },
+        "status": { "type": "string", "enum": ["RINGING", "CONNECTED", "ENDED", "REJECTED", "MISSED"] },
+        "offerSdp": { "type": "string" },
+        "offerType": { "type": "string" },
+        "answerSdp": { "type": "string" },
+        "answerType": { "type": "string" },
+        "durationSeconds": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "endedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["callerId", "callerName", "calleeId", "calleeName", "participantIds", "callType", "status", "durationSeconds", "createdAt", "updatedAt"]
+    },
+    "IceCandidateItem": {
+      "title": "IceCandidateItem",
+      "description": "Trickle ICE candidate exchanged during WebRTC signaling.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "role": { "type": "string", "enum": ["caller", "callee"] },
+        "sdpMid": { "type": "string" },
+        "sdpMLineIndex": { "type": "integer" },
+        "candidate": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "role", "sdpMid", "sdpMLineIndex", "candidate", "participantIds", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": { "$ref": "#/entities/UserPrivate" }, "description": "Owner-isolated private user profiles." },
+    "/directory/{userId}": { "schema": { "$ref": "#/entities/DirectoryUser" }, "description": "Discoverable contact and creator directory." },
+    "/connectNumbers/{number}": { "schema": { "$ref": "#/entities/ConnectNumberIndex" }, "description": "Direct lookup by unique 9-digit 01xxxxxxx connect number." },
+    "/friendRequests/{requestId}": { "schema": { "$ref": "#/entities/FriendRequest" }, "description": "Friend requests." },
+    "/friendships/{pairId}": { "schema": { "$ref": "#/entities/Friendship" }, "description": "Confirmed friend connections." },
+    "/conversations/{conversationId}": { "schema": { "$ref": "#/entities/Conversation" }, "description": "Direct messaging threads." },
+    "/conversations/{conversationId}/messages/{messageId}": { "schema": { "$ref": "#/entities/ChatMessage" }, "description": "Chat messages." },
+    "/feedPosts/{postId}": { "schema": { "$ref": "#/entities/FeedPost" }, "description": "Social feed posts." },
+    "/feedPosts/{postId}/comments/{commentId}": { "schema": { "$ref": "#/entities/FeedComment" }, "description": "Comments and image replies on posts." },
+    "/follows/{followId}": { "schema": { "$ref": "#/entities/FollowRelation" }, "description": "User follower graph." },
+    "/notifications/{notificationId}": { "schema": { "$ref": "#/entities/AppNotification" }, "description": "Social & messaging alerts with recovery state." },
+    "/voiceTransfers/{transferId}": { "schema": { "$ref": "#/entities/VoiceTransferSession" }, "description": "WebRTC P2P voice transfer signaling." },
+    "/voiceTransfers/{transferId}/candidates/{candidateId}": { "schema": { "$ref": "#/entities/IceCandidateItem" }, "description": "ICE candidates for P2P voice transfer." },
+    "/calls/{callId}": { "schema": { "$ref": "#/entities/CallSession" }, "description": "WebRTC call signaling sessions and call logs." },
+    "/calls/{callId}/candidates/{candidateId}": { "schema": { "$ref": "#/entities/IceCandidateItem" }, "description": "Trickle ICE candidates for a call session." }
+  }
+}

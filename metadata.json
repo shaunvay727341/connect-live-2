@@ -1,0 +1,6 @@
+{
+  "name": "Connect Live",
+  "description": "Real-time audio calling, video calling, and messaging app powered by WebRTC, Metered TURN relay, and Firebase Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
